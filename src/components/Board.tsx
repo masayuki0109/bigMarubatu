@@ -1,21 +1,15 @@
-import React, {useState} from "react";
-import { MarubatuField, Turn } from "./MarubatuField"
+import React from "react";
+import { MarubatuField, BoardProps, Row } from "./MarubatuField"
 
-interface Props {};
 
-export const Board: React.FC<Props> = ({}) => {
-  const [turn, setTurn]  = useState<Turn>('odd')
-  const changeTurn = () => {
-    console.log(turn)
-    setTurn(turn === 'odd' ? 'even' : 'odd')
-  }
+export const Board: React.FC<BoardProps> = (child:BoardProps) => {
   return (
     <div style={styles.container}>
       {[...Array(3)].map((_, i) => (
         <div style={styles.inner} key={i}>
-          <MarubatuField {...{ turn, changeTurn }} />
-          <MarubatuField {...{ turn, changeTurn }} />
-          <MarubatuField {...{ turn, changeTurn }} />
+          <MarubatuField {...child} myPosition={[1, i + 1 as Row]} />
+          <MarubatuField {...child} myPosition={[2, i + 1 as Row]} />
+          <MarubatuField {...child} myPosition={[3, i + 1 as Row]} />
         </div>
       ))}
     </div>

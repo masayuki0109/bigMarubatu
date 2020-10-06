@@ -2,26 +2,31 @@ import React, {useState} from "react";
 
 type MaruBatu = '✖' | '●'
 export type Turn = 'odd' | `even`
+export type Row = 1 | 2 | 3
+type Col = 1 | 2 | 3
+export type Position = [Row, Col]
 
 const turn2MaruBatu: {[key: string]:MaruBatu} = {
   odd: '●',
   even: '✖',
 }
-interface Props {
+export interface BoardProps {
   turn: Turn; 
-  changeTurn: () => void;
+  myPosition?: Position; 
+  tapFields: (position: Position) => void;
+  disable?: boolean
 };
 
-export const MarubatuField: React.FC<Props> = ({turn, changeTurn}) => {
+export const MarubatuField: React.FC<BoardProps> = ({turn, tapFields, myPosition, disable}) => {
   const [value, setValue] = useState<MaruBatu>()
-  const onChange = () => {
-    if (value === undefined) {
+  const onClick = () => {
+    if (value === undefined && !disable) {
       setValue(turn2MaruBatu[turn])
-      changeTurn();
+      tapFields(myPosition as Position);
     }
   }
   return (
-    <div style={styles.container} onClick={onChange}>
+    <div style={styles.container} onClick={onClick}>
       <text>{value ?? '　'}</text>
     </div>
   )

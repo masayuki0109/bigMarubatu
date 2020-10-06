@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import { Board} from "./Board"
-import {Turn} from "./MarubatuField"
+import {Row, Turn} from "./MarubatuField"
 import {Position} from "./MarubatuField"
+import {isActiveField} from "../utils/isActiveField"
 
-interface Props {};
 
-export const BigBoard: React.FC<Props> = ({}) => {
+export const BigBoard: React.FC = () => {
   const [turn, setTurn]  = useState<Turn>('odd')
   const changeTurn = () => {
     setTurn(turn === 'odd' ? 'even' : 'odd')
@@ -19,16 +19,14 @@ export const BigBoard: React.FC<Props> = ({}) => {
     changeNextPosition(position)
     changeTurn()
   }
-  useEffect(() => {
-    console.log(nextPosition)
-  },[nextPosition])
+
   return (
     <div style={styles.container}>
       {[...Array(3)].map((_, i) => (
         <div style={styles.inner} key={i}>
-          <Board {...{turn, tapFields}}/>
-          <Board {...{turn, tapFields}}/>
-          <Board {...{turn, tapFields}}/>
+          <Board {...{turn, tapFields, disable: !isActiveField({nextPosition, currentPosition: [1, i + 1 as Row]}) }}/>
+          <Board {...{turn, tapFields, disable: !isActiveField({nextPosition, currentPosition: [2, i + 1 as Row]}) }}/>
+          <Board {...{turn, tapFields, disable: !isActiveField({nextPosition, currentPosition: [3, i + 1 as Row]}) }}/>
         </div>
       ))}
     </div>

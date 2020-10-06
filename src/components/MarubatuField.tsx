@@ -10,14 +10,14 @@ const turn2MaruBatu: {[key: string]:MaruBatu} = {
   odd: '●',
   even: '✖',
 }
-export interface BoardProps {
+export interface FieldProps {
   turn: Turn; 
   myPosition?: Position; 
   tapFields: (position: Position) => void;
-  disable?: boolean
+  disable: boolean
 };
 
-export const MarubatuField: React.FC<BoardProps> = ({turn, tapFields, myPosition, disable}) => {
+export const MarubatuField: React.FC<FieldProps> = ({turn, tapFields, myPosition, disable}) => {
   const [value, setValue] = useState<MaruBatu>()
   const onClick = () => {
     if (value === undefined && !disable) {
@@ -26,7 +26,7 @@ export const MarubatuField: React.FC<BoardProps> = ({turn, tapFields, myPosition
     }
   }
   return (
-    <div style={styles.container} onClick={onClick}>
+    <div style={{ ...styles.container, backgroundColor: disable ? '#aaa' :'#fff'}} onClick={onClick}>
       <text>{value ?? '　'}</text>
     </div>
   )

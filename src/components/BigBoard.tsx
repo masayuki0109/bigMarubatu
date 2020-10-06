@@ -1,19 +1,15 @@
-import React, {useState} from "react";
+import React from "react";
 import { Board} from "./Board"
-import {Row, Turn} from "./MarubatuField"
+import {Row} from "./MarubatuField"
 import {Position} from "./MarubatuField"
 import {isActiveField} from "../utils/isActiveField"
+import {useChangeTurn} from "../utils/useChangeTurn"
+import { useChangeActivePosition } from "../utils/useChangeActivePosition";
 
 
 export const BigBoard: React.FC = () => {
-  const [turn, setTurn]  = useState<Turn>('odd')
-  const changeTurn = () => {
-    setTurn(turn === 'odd' ? 'even' : 'odd')
-  }
-  const [nextPosition, setNextPosition] = useState<Position>();
-  const changeNextPosition = (position:Position) => {
-    setNextPosition(position)
-  }
+  const [turn, changeTurn] = useChangeTurn();
+  const [nextPosition, changeNextPosition] = useChangeActivePosition();
 
   const tapFields = (position: Position) => {
     changeNextPosition(position)
